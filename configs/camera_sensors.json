@@ -1,0 +1,25 @@
+{
+   "rgb":  {
+     "attributes": {
+       "image_size_x": "224",
+       "image_size_y": "224"
+     },
+     "location": {
+       "x": 0.5,
+       "y": 0.0,
+       "z": 1.7
+     }
+   },
+
+   "semantic_segmentation":  {
+     "attributes": {
+       "image_size_x": "224",
+       "image_size_y": "224"
+     },
+     "location": {
+       "x": 0.5,
+       "y": 0.0,
+       "z": 1.7
+     }
+   }
+}
