@@ -15,7 +15,7 @@ def main():
     with open(os.path.join(".", "configs", "ego_camera_sensors.json"), "r") as read_file:
         config_camera_sensors = json.load(read_file)
 
-    client = carla.Client("localhost", 2000)
+    client = carla.Client(args.host, args.port)
     client.set_timeout(10.0)
 
     world = client.get_world()
@@ -71,19 +71,29 @@ def main():
 
 def create_arg_parser():
     parser = argparse.ArgumentParser(description="Collect data for image segmentation")
+    parser.add_argument("--host",
+                        metavar="",
+                        default="localhost",
+                        help="IP of the host server (default: localhost)")
+    parser.add_argument("-p",
+                        "--port",
+                        metavar="",
+                        default=2000,
+                        type=int,
+                        help="TCP port to listen to (default: 2000)")
     parser.add_argument("-n",
                         "--n_runs",
                         type=int,
                         metavar="",
-                        required=True,
-                        help="Number of runs from different spawn points")
+                        default=20,
+                        help="Number of runs from different spawn points (default: 20)")
 
     parser.add_argument("-d",
                         "--run_duration_in_seconds",
                         type=int,
                         metavar="",
-                        required=True,
-                        help="Duration every single run gets per spawn point")
+                        default=120,
+                        help="Duration every single run gets per spawn point (default: 120)")
 
     return parser
 
