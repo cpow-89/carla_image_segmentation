@@ -43,27 +43,29 @@ def main():
         actor_list = []
 
         try:
-            ego_vehicle = world.spawn_actor(ego_vehicle_blueprint, spawn_point)
-            ego_vehicle.set_autopilot(True)
-            actor_list.append(ego_vehicle)
+            ego_vehicle = world.try_spawn_actor(ego_vehicle_blueprint, spawn_point)
 
-            rgb_camera = world.spawn_actor(rgb_camera_blueprint, rgb_camera_location, attach_to=ego_vehicle)
-            actor_list.append(rgb_camera)
+            if ego_vehicle is not None:
+                ego_vehicle.set_autopilot(True)
+                actor_list.append(ego_vehicle)
 
-            sem_seg_camera = world.spawn_actor(sem_seg_camera_blueprint, sem_seg_camera_location, attach_to=ego_vehicle)
-            actor_list.append(sem_seg_camera)
+                rgb_camera = world.spawn_actor(rgb_camera_blueprint, rgb_camera_location, attach_to=ego_vehicle)
+                actor_list.append(rgb_camera)
 
-            print("Run {} is set up".format(run_id))
-            time.sleep(4)
+                sem_seg_camera = world.spawn_actor(sem_seg_camera_blueprint, sem_seg_camera_location, attach_to=ego_vehicle)
+                actor_list.append(sem_seg_camera)
 
-            print("Run {} collects data".format(run_id))
+                print("Run {} is set up".format(run_id))
+                time.sleep(4)
 
-            rgb_camera.listen(lambda image: save_to_disk.save_rgb_image(image, rgb_camera_output_dir, run_id))
-            sem_seg_camera.listen(lambda image: save_to_disk.save_seg_mask(image, sem_seg_camera_output_dir, run_id))
+                print("Run {} collects data".format(run_id))
 
-            time.sleep(args.run_duration_in_seconds)
+                rgb_camera.listen(lambda image: save_to_disk.save_rgb_image(image, rgb_camera_output_dir, run_id))
+                sem_seg_camera.listen(lambda image: save_to_disk.save_seg_mask(image, sem_seg_camera_output_dir, run_id))
 
-            print("Run {} done".format(run_id))
+                time.sleep(args.run_duration_in_seconds)
+
+                print("Run {} done".format(run_id))
 
         finally:
             sim_teardown.clean_up(actor_list)
@@ -98,5 +100,5 @@ def create_arg_parser():
     return parser
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
