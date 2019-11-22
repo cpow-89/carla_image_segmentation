@@ -16,3 +16,5 @@ def create_basic_camera_blueprint(blueprint_library, camera_type, attributes):
     camera_blueprint = blueprint_library.find("sensor.camera.{}".format(camera_type))
     for name, value in attributes.items():
         camera_blueprint.set_attribute(name, value)
+
+    return camera_blueprint
